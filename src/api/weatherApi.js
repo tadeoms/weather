@@ -1,5 +1,5 @@
 const WEATHER_API_KEY = import.meta.env.VITE_WEATHER_API_KEY
-const WEATHER_API_URL = 'http://api.weatherapi.com/v1/forecast.json?'
+const WEATHER_API_URL = 'https://api.weatherapi.com/v1/forecast.json?'
 
 const fetchWeatherData = async (city) => {
     try {
