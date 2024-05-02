@@ -9,7 +9,7 @@ import { MeasureProvider } from './context/MeasureContext'
 
 function App() {
 
-  const [city, setCity] = useState('argentina')
+  const [city, setCity] = useState('Buenos Aires')
   const [weatherData, setWeatherData] = useState(null)
 
   useEffect(() => {
