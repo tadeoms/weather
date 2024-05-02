@@ -1,52 +1,62 @@
-import sunrise from '../assetsWeather/icons/sunrise.svg'
-import sunset from '../assetsWeather/icons/sunset.svg'
-import wind from '../assetsWeather/icons/wind.svg'
-import drop from '../assetsWeather/icons/drop.svg'
-import sun from '../assetsWeather/icons/sun.svg'
-import temperature from '../assetsWeather/icons/temperature.svg'
+import sunrise from '../assets/icons/sunrise.svg'
+import sunset from '../assets/icons/sunset.svg'
+import wind from '../assets/icons/wind.svg'
+import drop from '../assets/icons/drop.svg'
+import sun from '../assets/icons/sun.svg'
+import temperature from '../assets/icons/temperature.svg'
+import PropTypes from 'prop-types'
+import { useContext } from 'react'
+import { MeasureContext } from '../context/MeasureContext'
 
 
+const WeatherDetails = ({ weather}) => {
 
-const WeatherDetails = () => {
+  const { measure } = useContext(MeasureContext)
 
-    const details=[
-        {name: "Max temperature", value: "20°", icon:temperature},
-        {name: "Min temperature", value: "10°", icon:temperature},
-        {name: "Sunrise", value: "06:00", icon:sunrise},
-        {name: "Sunset", value: "18:00", icon:sunset},
-        {name: "Chance of rain", value: "10%", icon:drop},
-        {name: "Wind", value: "5.1 km/h", icon:wind},
-        {name: "UV index", value: "2 of 10", icon:sun},
-        {name: "Fells like", value: "12°", icon:temperature},
-    ]
+  const details = [
+    { name: "Min temperature", value: measure === 'C' ? `${weather.minTempC.toFixed()}°C` : `${weather.minTempF.toFixed()}°F`, icon: temperature },
+    { name: "Max temperature", value: measure === 'C' ? `${weather.maxTempC.toFixed()}°C` : `${weather.maxTempF.toFixed()}°F`, icon: temperature },
+    { name: "Sunrise", value: weather.sunrise, icon: sunrise },
+    { name: "Sunset", value: weather.sunset, icon: sunset },
+    { name: "Chance of rain", value: `${weather.chanceOfRain}%`, icon: drop },
+    { name: "Wind", value: `${weather.wind} km/h`, icon: wind },
+    { name: "UV index", value: `${weather.uv} of 10`, icon: sun },
+    { name: "Feels like", value: measure === 'C' ? `${weather.feelsLikeC.toFixed()}°C` : `${weather.feelsLikeF.toFixed()}°F`, icon: temperature },
+  ]
+  
+
   return (
-    <div
-        className="bg-blue-100 p-2  rounded-lg"
-    >
-        <h6
-            className='p-2'
-        >
-            WEATHER DETAILS
-        </h6>
-        <div className="grid grid-cols-4">
-            {details.map((d, index) => (
-                <div
-                    key={index}
-                    className="bg-white bg-opacity-32 m-2 p-3 flex justify-between items-center rounded-xl"
-                >
-                    <div>
-                        <h5>{d.name}</h5>
-                        <h3>{d.value}</h3>
-                    </div>
-                    <img src={d.icon} alt={d.name} 
-                        className='w-7 h-7'
-                    />
-                </div>
-            ))}
-        </div>
-
+    <div className="bg-blue-100 p-2 rounded-lg">
+      <h6 className='p-2'>WEATHER DETAILS</h6>
+      <div className="grid md:grid-cols-4 sm:grid-cols-2">
+        {details.map((d, index) => (
+          <div key={index} className="bg-white bg-opacity-32 m-2 p-3 flex justify-between items-center rounded-xl">
+            <div>
+              <h5>{d.name}</h5>
+              <h3>{d.value}</h3>
+            </div>
+            <img src={d.icon} alt={d.name} className='w-7 h-7' />
+          </div>
+        ))}
+      </div>
     </div>
   )
+}
+
+WeatherDetails.propTypes = {
+  weather: PropTypes.shape({
+    maxTempC: PropTypes.number.isRequired,
+    minTempC: PropTypes.number.isRequired,
+    maxTempF: PropTypes.number.isRequired,
+    minTempF: PropTypes.number.isRequired,
+    sunrise: PropTypes.string.isRequired,
+    sunset: PropTypes.string.isRequired,
+    chanceOfRain: PropTypes.string.isRequired,
+    wind: PropTypes.string.isRequired,
+    uv: PropTypes.string.isRequired,
+    feelsLikeC: PropTypes.number.isRequired,
+    feelsLikeF: PropTypes.number.isRequired,
+  }).isRequired,
 }
 
 export default WeatherDetails
